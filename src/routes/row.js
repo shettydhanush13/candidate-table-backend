@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Tasks = require('../models/row');
 const { v4: uuidv4 } = require('uuid');
-const { emailuser } = require("../helpers")
+// const { emailuser } = require("../helpers")
 
 router.route('/')
     .post(async(req, res) => {
@@ -32,9 +32,10 @@ router.route('/:rowId')
     })
 
     .put(async(req, res) => {
+        console.log(req.body.move_forward, req.body.action_result)
         if(req.body.move_forward === "yes" && req.body.action_result !== "Email sent") {
-            const emailResponse =  await emailuser(req.body)
-            req.body.action_result = emailResponse.message
+            // const emailResponse =  await emailuser(req.body)
+            // req.body.action_result = emailResponse.message
         }
         await Tasks.findOneAndUpdate({ rowId : req.params.rowId } , { $set : req.body })
         const taskResponse = await Tasks.find({}) 
